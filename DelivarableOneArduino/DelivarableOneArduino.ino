@@ -14,6 +14,8 @@ uint16_t ChannelValue = 0;
 //State Flag
 bool ChannelStage = true;
 
+int TransmitStatus = 0;
+
 //Sets target of servo channel ChannelNum, ChannelVal is pulse width in us
 int TransmitChannel(uint8_t ChannelNum, uint16_t ChannelVal);
 
@@ -26,7 +28,7 @@ void setup() {
   //Setup Servo Channel
   maestro.setSpeed(0, 0);
   maestro.setAcceleration(0, 0);
-  TransmitChannel(0,1000);
+  TransmitChannel(0,4000);
 
   delay(1000);
   Serial.println("Enter Channel Number:");
@@ -37,7 +39,7 @@ void loop() {
   if(Serial.available() && ChannelStage)
   {
       ChannelEntered = Serial.parseInt();
-      Serial.print("Enter Value between 1000 and 2000 for Channel ");
+      Serial.print("Enter Value between 4000 and 8000 for Channel ");
       Serial.print(ChannelEntered);
       Serial.print(":\n");
       ChannelStage = false;
@@ -47,15 +49,7 @@ void loop() {
   if(Serial.available() && !ChannelStage)
   {
       ChannelValue = Serial.parseInt();
-      if(ChannelValue < 1000)
-      {
-        ChannelValue = 1000;
-      }
-      if(ChannelValue > 2000)
-      {
-        ChannelValue = 2000;
-      }
-      TransmitStatus = TransmitChannel(ChannelEntered, ChannelValue);
+      TransmitChannel(ChannelEntered, ChannelValue);
       if(TransmitStatus == 0)
       {
         Serial.print("Channnel ");
