@@ -43,7 +43,6 @@ void loop() {
       Serial.print(ChannelEntered);
       Serial.print(":\n");
       ChannelStage = false;
-      delay(200);
   }
   //accpet user input for channel target
   if(Serial.available() && !ChannelStage)
